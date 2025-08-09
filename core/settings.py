@@ -119,20 +119,20 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+# URL para servir os arquivos estáticos
+STATIC_URL = '/static/'
 
-STATIC_URL = 'static/'
-
-# Diretórios adicionais onde o Django vai procurar por arquivos estáticos.
-# O padrão é o subdiretório 'static' de cada app.
+# Diretórios adicionais onde o Django vai procurar arquivos estáticos
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "core/templates/static"),
+    os.path.join(BASE_DIR, "static"),
 ]
 
-# Diretório final onde os arquivos estáticos serão coletados pelo 'collectstatic'.
+# Pasta onde os arquivos serão reunidos pelo collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
-MEDIA_URL = "/media/"
+# Arquivos de mídia (uploads de usuários)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "/"

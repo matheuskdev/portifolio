@@ -135,7 +135,7 @@ info.py
 poetry.lock
 *.rar
 TODO.txt
-static/
+
 staticfiles/
 .pylintrc
 mypy.ini
