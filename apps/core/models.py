@@ -212,3 +212,21 @@ class Message(models.Model):
 
     def __str__(self):
         return self.name or "Mensagem sem nome"
+
+
+class Footer(models.Model):
+    """Informações do rodapé"""
+    copyright_text = models.CharField(
+        "Texto de copyright",
+        max_length=255,
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        verbose_name = "Rodapé"
+        verbose_name_plural = "Rodapés"
+        db_table = "footers"
+
+    def __str__(self):
+        return self.copyright_text or "Rodapé sem texto"

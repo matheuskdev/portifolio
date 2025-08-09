@@ -10,10 +10,11 @@ def index(request):
     projects = Project.objects.filter(is_active=True)
     contact = Contact.objects.filter(is_active=True).first()
     sections = Sections.objects.all().first()
+    footer = Footer.objects.all().first()
     context = {
         'metadata': metadata, 'hero': hero, 'about': about,
         'skillgroups': skillgroups, 'projects': projects,
-        'contact': contact, 'sections': sections
+        'contact': contact, 'sections': sections, 'footer': footer
     }
     
     if request.method == 'POST':
