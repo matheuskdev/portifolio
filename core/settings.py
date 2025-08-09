@@ -122,11 +122,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "core/templates/static"), 
-    os.path.join(BASE_DIR, "static"),
-)
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+# Diretórios adicionais onde o Django vai procurar por arquivos estáticos.
+# O padrão é o subdiretório 'static' de cada app.
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "core/static"),
+]
+
+# Diretório final onde os arquivos estáticos serão coletados pelo 'collectstatic'.
+STATIC_ROOT = os.path.join(BASE_DIR, "static_root")  # Altere o nome da pasta de destino para evitar conflitos
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = "/media/"
