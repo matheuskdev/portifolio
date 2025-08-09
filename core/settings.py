@@ -27,9 +27,9 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = [
-    'http://157.230.229.249/',
-    'http://matheusbraga.dev/',
-    'https://matheusbraga.dev/'
+    '157.230.229.249',
+    'matheusbraga.dev',
+    'www.matheusbraga.dev'
 ]
 
 
