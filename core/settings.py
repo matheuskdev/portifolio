@@ -125,7 +125,7 @@ STATIC_URL = 'static/'
 # Diretórios adicionais onde o Django vai procurar por arquivos estáticos.
 # O padrão é o subdiretório 'static' de cada app.
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "core/static"),
+    os.path.join(BASE_DIR, "core/templates/static"),
 ]
 
 # Diretório final onde os arquivos estáticos serão coletados pelo 'collectstatic'.
