@@ -1,0 +1,22 @@
+<section id="skills" class="py-24 px-6 lg:px-16 bg-black">
+    <div class="max-w-6xl mx-auto">
+        <h2 class="section-heading">Technical Skills</h2>
+        <div class="mt-12 fade-in" style="animation-delay: 0.3s;">
+            <div class="skills-grid">
+                {% for group in skillgroups %}
+                <div class="skill-category">
+                    <h3 class="font-mono">{{group.title|default:"Untitled"}} </h3>
+                    <ul class="skill-list">
+                        {% for skill in group.skill_set.all %}
+                        <li>
+                            <div class="skill-icon-placeholder">{{skill.icon|safe}} </div>
+                            <span class="text-sm text-white">{{skill.title}}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
