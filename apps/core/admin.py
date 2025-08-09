@@ -356,6 +356,19 @@ class SocialLinkAdmin(BaseAdmin):
         }),
     )
 
+@admin.register(Footer)
+class FooterAdmin(BaseAdmin):
+    list_display = ('copyright_text',)
+    list_filter = (FilterActive,)
+    search_fields = ('copyright_text',)
+
+    fieldsets = (
+        ('Informações do Rodapé', {
+            'fields': ('copyright_text',)
+        }),
+    )
+
+
 # Personalização do painel admin
 admin.site.site_header = "🎨 Painel de Administração do Portfólio"
 admin.site.site_title = "Administração do Portfólio"
