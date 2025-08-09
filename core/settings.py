@@ -27,9 +27,10 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = [
-    '157.230.229.249',
+    '159.203.180.207',
     'matheusbraga.dev',
-    'www.matheusbraga.dev'
+    'www.matheusbraga.dev',
+    '127.0.0.1',
 ]
 
 
@@ -141,3 +142,8 @@ LOGOUT_REDIRECT_URL = "/login/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
