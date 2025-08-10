@@ -31,8 +31,8 @@ def index(request):
 
 @cache_page(60 * 60 * 24)  # 1 dia de cache
 def robots(request):
-    return render(request, 'robots.txt', content_type='text/plain')
+    return render(request, 'main/robots.txt', content_type='text/plain')
 
 @cache_page(60 * 60 * 24)
 def sitemap(request):
-    return render(request, 'sitemap.xml', content_type='application/xml')
+    return render(request, 'main/sitemap.xml', content_type='application/xml')
