@@ -371,13 +371,13 @@ class FooterAdmin(BaseAdmin):
 
 @admin.register(Message)
 class MessageAdmin(BaseAdmin):
-    list_display = ('name', 'email', 'message', 'created_at')
+    list_display = ('name', 'email', 'message', 'created')
     list_filter = (FilterActive,)
     search_fields = ('name', 'email', 'message')
 
     fieldsets = (
         ('Detalhes da Mensagem', {
-            'fields': ('name', 'email', 'message', 'created_at'),
+            'fields': ('name', 'email', 'message', 'created'),
             'description': 'Informações sobre a mensagem recebida'
         }),
     )
