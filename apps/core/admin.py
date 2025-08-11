@@ -369,6 +369,27 @@ class FooterAdmin(BaseAdmin):
     )
 
 
+@admin.register(Message)
+class MessageAdmin(BaseAdmin):
+    list_display = ('name', 'email', 'message', 'created_at')
+    list_filter = (FilterActive,)
+    search_fields = ('name', 'email', 'message')
+
+    fieldsets = (
+        ('Detalhes da Mensagem', {
+            'fields': ('name', 'email', 'message', 'created_at'),
+            'description': 'Informações sobre a mensagem recebida'
+        }),
+    )
+
+    def preview_message(self, obj):
+        if obj.message:
+            texto = obj.message[:50] + ('...' if len(obj.message) > 50 else '')
+            return format_html('<span title="{}">{}</span>', obj.message, texto)
+        return format_html('<span style="color: #999;">Sem mensagem</span>')
+    preview_message.short_description = 'Mensagem'
+
+
 # Personalização do painel admin
 admin.site.site_header = "🎨 Painel de Administração do Portfólio"
 admin.site.site_title = "Administração do Portfólio"
