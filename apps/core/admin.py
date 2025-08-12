@@ -377,7 +377,7 @@ class MessageAdmin(BaseAdmin):
 
     fieldsets = (
         ('Detalhes da Mensagem', {
-            'fields': ('name', 'email', 'message', 'created'),
+            'fields': ('name', 'email', 'message',),
             'description': 'Informações sobre a mensagem recebida'
         }),
     )
