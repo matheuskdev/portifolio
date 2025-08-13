@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from .models import *
+from django.contrib import messages
+from django.shortcuts import redirect
 
 
 def index(request):
@@ -23,6 +25,12 @@ def index(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
         message = request.POST.get('message')
+
+        if not name or not email or not message:
+            context['error'] = 'Todos os campos são obrigatórios.'
+            messages.error(request, 'Todos os campos são obrigatórios.')
+            return redirect('index')
+
         Message.objects.create(name=name, email=email, message=message)
         return render(request, 'main/index.html', context=context)
 

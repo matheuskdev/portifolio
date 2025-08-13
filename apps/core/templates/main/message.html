@@ -1,0 +1,17 @@
+{% if messages %}
+<div class="flex h-full w-full items-center gap-2 px-4 py-2 text-left md:gap-4 md:p-6" id="message">
+    <div
+        class="align-center border-slate-6 text-slate-12 group-data-[state=active]:text-green-9 relative flex h-10 w-10 justify-center overflow-hidden rounded-xl bg-gradient-to-bl from-white/[6%] p-2 transition-all duration-150 ease-in-out group-data-[state=active]:from-white/10 md:border">
+        <div class="relative flex h-full w-full items-center justify-center">
+            <div style="width: 18px; height: 18px;">
+            <div class="pointer-events-none absolute inset-0 bg-transparent mix-blend-darken group-data-[state=active]:bg-green-400"
+                aria-hidden="true">
+
+            </div>
+        </div>
+    </div>
+    {% for message in messages %}
+    <h4 class="font-display effect-font-styling text-base tracking-tighter text-slate-12">{{message}}</h4>
+    {% endfor %}
+</div>
+ {% endif %}
