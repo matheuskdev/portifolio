@@ -1,17 +1,38 @@
 {% if messages %}
-<div class="flex h-full w-full items-center gap-2 px-4 py-2 text-left md:gap-4 md:p-6" id="message">
-    <div
-        class="align-center border-slate-6 text-slate-12 group-data-[state=active]:text-green-9 relative flex h-10 w-10 justify-center overflow-hidden rounded-xl bg-gradient-to-bl from-white/[6%] p-2 transition-all duration-150 ease-in-out group-data-[state=active]:from-white/10 md:border">
-        <div class="relative flex h-full w-full items-center justify-center">
-            <div style="width: 18px; height: 18px;">
-            <div class="pointer-events-none absolute inset-0 bg-transparent mix-blend-darken group-data-[state=active]:bg-green-400"
-                aria-hidden="true">
-
-            </div>
-        </div>
-    </div>
+<div id="message-container" class="my-4">
     {% for message in messages %}
-    <h4 class="font-display effect-font-styling text-base tracking-tighter text-slate-12">{{message}}</h4>
+    <div class="alert {{ message.tags }} flex items-center justify-between p-4 rounded-lg shadow-md mb-2" role="alert">
+        <div class="flex items-center">
+            {% if message.tags == 'success' %}
+            <svg class="w-6 h-6 text-green-700 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            {% elif message.tags == 'error' %}
+            <svg class="w-6 h-6 text-red-700 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+            </svg>
+            {% endif %}
+
+            <p class="text-base text-gray-800">{{ message }}</p>
+        </div>
+        
+        <button type="button" class="close-alert text-gray-400 hover:text-gray-600 focus:outline-none" aria-label="Close">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
     {% endfor %}
 </div>
- {% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const closeButtons = document.querySelectorAll('.close-alert');
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                button.closest('.alert').remove();
+            });
+        });
+    });
+</script>
+{% endif %}
