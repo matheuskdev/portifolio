@@ -18,8 +18,11 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+from two_factor.urls import urlpatterns as two_factor_urls
 
 urlpatterns = [
     path('adminmk/', admin.site.urls),
-    path('', include('apps.core.urls')),  # Include core app URLs
+    path('', include('apps.core.urls')),
+    path('', include('apps.accounts.urls')),
+    path('', include(two_factor_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+
+{% block page_name_items %}
+  <li class="breadcrumb-item">Autorização</li>
+  <li class="breadcrumb-item active" aria-current="page">Login</li>
+</nav>
+{% endblock page_name_items %}
+
+{% block content %}
+  <main>
+    <div class="container">
+      {% if form.errors %}
+        <div class="alert alert-danger mt-4">
+          <ul class="mb-0">
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      <section class="register d-flex flex-column align-items-center justify-content-center">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-2 d-flex flex-column align-items-center justify-content-center">
+
+              <div class="d-flex justify-content-center py-1">
+              </div><!-- End Logo -->
+
+              <div class="card mb-1">
+
+                <div class="card-body">
+
+                  <div class="pt-1 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">MB Dev</h5>
+                    <p class="text-center small">Informe seu email e sua senha!</p>
+                  </div>
+
+                  <form class="row g-3 needs-validation" method="post">
+                  {% csrf_token %}
+
+                    <div class="col-12">
+                      <div class="input-group has-validation">
+                        {{ form.as_p }}
+                      </div>
+                    </div>
+
+                    
+                    <div class="col-10">
+                      <button class="btn btn-primary w-100" type="submit">Login</button>
+                    </div>
+                    <div class="col-12">
+                      <p class="small mb-0">Esqueceu sua senha? <a href="{% url 'password_reset'%}">Clique aqui!</a></p>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+{% endblock %}
