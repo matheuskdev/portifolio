@@ -3,7 +3,7 @@ from django.views.decorators.cache import cache_page
 from .models import *
 from django.contrib import messages
 from django.shortcuts import redirect
-
+from django.contrib.auth.decorators import login_required
 
 def index(request):
 
@@ -44,3 +44,8 @@ def robots(request):
 @cache_page(60 * 60 * 24)
 def sitemap(request):
     return render(request, 'main/sitemap.xml', content_type='application/xml')
+
+
+@login_required
+def test_view(request):
+    return render(request, 'main/test.html')
