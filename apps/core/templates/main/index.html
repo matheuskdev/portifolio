@@ -1,43 +1,6 @@
+{% extends "base.html" %}
 
-{% load static %}
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="{{metadata.description}}">
-    <meta name="keywords" content="{{metadata.keywords}}">
-    <meta name="author" content="{{hero.full_name}}">
-    <meta name="robots" content="index, follow">
-    <title>{{metadata.title}}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
-    <script src="{% static 'js/tailwind.js' %}"></script>
-    <script type="application/ld+json">
-        {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Matheus Braga",
-        "url": "https://matheusbraga.dev",
-        "jobTitle": "Desenvolvedor Python/Django",
-        "sameAs": [
-            "https://github.com/matheuskdev",
-            "https://linkedin.com/in/matheusguilherme.kp"
-        ],
-        "worksFor": {
-            "@type": "Organization",
-            "name": "Hospital Maria Lucinda"
-        }
-        }
-</script>
-</head>
-
-<body class="bg-black text-white font-sans">
-    {% include "main/sidebar.html" %}
-    <main class="lg:ml-20">
+{% block main %}
         {% include "main/hero.html" %}
         {% if sections.about_me %}{% include "main/about.html" %}{% endif %}
         {% if sections.projects %}{% include "main/projects.html" %}{% endif %}
@@ -46,8 +9,7 @@
         {% include "main/message.html" %}
     
         {% if sections.contact %}{% include "main/contact.html" %}{% endif %}
-        {% include "main/footer.html" %}
-    </main>
-    <script src="{% static 'js/script.js' %}"></script>
-</body>
-</html>
+
+{% endblock main %}
+
+{% load static %}

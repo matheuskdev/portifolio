@@ -1,75 +1,68 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block title %}Login{% endblock %}
+{% extends "two_factor/_base_focus.html" %}
+{% load i18n %}
+{% load two_factor_tags %}
 
-
-{% block page_name_items %}
-  <li class="breadcrumb-item">Autorização</li>
-  <li class="breadcrumb-item active" aria-current="page">Login</li>
-</nav>
-{% endblock page_name_items %}
+{% block extra_media %}
+  {{ form.media }}
+{% endblock %}
 
 {% block content %}
-  <main>
-    <div class="container">
-      {% if form.errors %}
-        <div class="alert alert-danger mt-4">
-          <ul class="mb-0">
-            {% for field in form %}
-              {% for error in field.errors %}
-                <li>{{ error }}</li>
-              {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-              <li>{{ error }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-      <section class="register d-flex flex-column align-items-center justify-content-center">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-2 d-flex flex-column align-items-center justify-content-center">
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <!-- <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="MatheusBraga.dev" class="mx-auto h-10 w-auto" /> -->
+    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">{% block title %}Login MB{% endblock %}</h2>
+  </div>
 
-              <div class="d-flex justify-content-center py-1">
-              </div><!-- End Logo -->
 
-              <div class="card mb-1">
+  {% if wizard.steps.current == 'auth' %}
+  {% elif wizard.steps.current == 'token' %}
+    <p>{{ device|as_verbose_action }}</p>
+  {% elif wizard.steps.current == 'backup' %}
+    <p>
+Use este formulário para inserir tokens de backup para login.
+Esses tokens foram gerados para você imprimir e guardar em segurança. Por favor,
+insira um desses tokens de backup para acessar sua conta.</p>
+  {% endif %}
 
-                <div class="card-body">
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form action="" method="post" class="space-y-6">
+    {% block main_form_content %}
+    {% csrf_token %}
+    {% include "two_factor/_wizard_forms.html" %}
 
-                  <div class="pt-1 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">MB Dev</h5>
-                    <p class="text-center small">Informe seu email e sua senha!</p>
-                  </div>
+    {# hidden submit button to enable [enter] key #}
+    <input type="submit" value="" hidden />
 
-                  <form class="row g-3 needs-validation" method="post">
-                  {% csrf_token %}
+    {% if other_devices %}
+      <p>Ou, alternativamente, use um dos seus outros métodos de autenticação:"</p>
+      <p>
+        {% for other in other_devices %}
+        <button name="challenge_device" value="{{ other.persistent_id }}"
+                class="btn btn-secondary btn-block" type="submit">
+          {{ other|as_action }}
+        </button>
+      {% endfor %}
+    </p>
+    {% endif %}
 
-                    <div class="col-12">
-                      <div class="input-group has-validation">
-                        {{ form.as_p }}
-                      </div>
-                    </div>
+    {% include "two_factor/_wizard_actions.html" %}
+    {% endblock %}
+  </form>
 
-                    
-                    <div class="col-10">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
-                    </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Esqueceu sua senha? <a href="{% url 'password_reset'%}">Clique aqui!</a></p>
-                    </div>
-                  </form>
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-      </section>
-
-    </div>
-  </main>
+  {% block 'backup_tokens' %}
+    {% if backup_tokens %}
+       <hr>
+       <div class="backup_tokens_form">
+       <form action="" method="post">
+           {% csrf_token %}
+            <p>Como último recurso, você pode usar um token de backup:</p>
+            <p>
+                <button name="wizard_goto_step" type="submit" value="backup"
+                    class="btn btn-sm btn-secondary btn-block">Usar token de backup</button>
+            </p>
+       </form>
+       </div>
+    {% endif %}
+  {% endblock %}
+  </div>
 {% endblock %}

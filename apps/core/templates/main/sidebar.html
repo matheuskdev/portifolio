@@ -4,7 +4,7 @@
         <a href="/" class="text-2xl font-bold font-mono">MB</a>
     </div>
     <nav class="flex flex-col items-center space-y-4" id="desktop-nav">
-        <a href="#home" class="nav-icon active" title="Home - Voltar ao início" data-section="home">
+        <a href="{% url 'index' %}#home" class="nav-icon active" title="Home - Voltar ao início" data-section="home">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -12,7 +12,7 @@
             </svg>
         </a>
         {% if sections.about_me %}
-        <a href="#about" class="nav-icon" title=" Sobre mim - Experiencias" data-section="about">
+        <a href="{% url 'index' %}#about" class="nav-icon" title=" Sobre mim - Experiencias" data-section="about">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -21,7 +21,7 @@
         </a>
         {% endif %}
         {% if sections.projects %}
-        <a href="#projects" class="nav-icon" title="Projetos - Meus trabalhos" data-section="projects">
+        <a href="{% url 'index' %}#projects" class="nav-icon" title="Projetos - Meus trabalhos" data-section="projects">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -30,7 +30,7 @@
         </a>
         {% endif %}
         {% if sections.skills %}
-        <a href="#skills" class="nav-icon" title="Skills - Minhas habilidades" data-section="skills">
+        <a href="{% url 'index' %}#skills" class="nav-icon" title="Skills - Minhas habilidades" data-section="skills">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -39,7 +39,7 @@
         </a>
         {% endif %}
         {% if sections.contact %}
-        <a href="#contact" class="nav-icon" title="Contato - Fale comigo" data-section="contact">
+        <a href="{% url 'index' %}#contact" class="nav-icon" title="Contato - Fale comigo" data-section="contact">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -47,6 +47,14 @@
             </svg>
         </a>
         {% endif %}
+        <a href="{% url 'two_factor:login' %}#" class="nav-icon" title="Login" data-section="login">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M12.3212 10.6852L4 19L6 21M7 16L9 18M20 7.5C20 9.98528 17.9853 12 15.5 12C13.0147 12 11 9.98528 11 7.5C11 5.01472 13.0147 3 15.5 3C17.9853 3 20 5.01472 20 7.5Z"/>
+
+            </svg>
+        </a>
     </nav>
     <!-- Theme Toggle Button -->
     <div class="mt-auto">
