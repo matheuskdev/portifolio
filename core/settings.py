@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'two_factor.plugins.phonenumber', 
     'two_factor.plugins.email',
     #apps da aplicação
-    'apps.core',
+    'apps.main',
     'apps.accounts',
 ]
 

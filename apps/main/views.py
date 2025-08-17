@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
-from .models import *
+from .models import (
+    MetaData, Hero, About, SkillGroup, Project, Contact, Sections, Footer, Message
+)
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required

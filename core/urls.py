@@ -22,7 +22,7 @@ from two_factor.urls import urlpatterns as two_factor_urls
 
 urlpatterns = [
     path('adminmk/', admin.site.urls),
-    path('', include('apps.core.urls')),
+    path('', include('apps.main.urls')),
     path('', include('apps.accounts.urls')),
     path('', include(two_factor_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

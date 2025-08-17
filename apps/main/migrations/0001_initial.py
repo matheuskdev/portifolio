@@ -145,7 +145,7 @@ class Migration(migrations.Migration):
                 ('link', models.URLField(blank=True, null=True, verbose_name='Link')),
                 ('icon', models.TextField(blank=True, null=True, verbose_name='Ícone')),
                 ('is_active', models.BooleanField(default=True)),
-                ('contact', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='info_items', to='core.contact')),
+                ('contact', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='info_items', to='main.contact')),
             ],
             options={
                 'verbose_name': 'Item de informação',
@@ -166,7 +166,7 @@ class Migration(migrations.Migration):
                 ('is_active', models.BooleanField(default=True)),
                 ('ordering_index', models.IntegerField(blank=True, null=True, verbose_name='Ordem de exibição')),
                 ('created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Data de criação')),
-                ('skill', models.ManyToManyField(blank=True, to='core.skill')),
+                ('skill', models.ManyToManyField(blank=True, to='main.skill')),
             ],
             options={
                 'verbose_name': 'Projeto',
@@ -178,7 +178,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='skill',
             name='group',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='core.skillgroup'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='main.skillgroup'),
         ),
         migrations.CreateModel(
             name='SocialLink',
@@ -188,7 +188,7 @@ class Migration(migrations.Migration):
                 ('link', models.URLField(blank=True, null=True, verbose_name='URL')),
                 ('icon', models.TextField(blank=True, null=True, verbose_name='Ícone')),
                 ('is_active', models.BooleanField(default=True)),
-                ('contact', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='social_links', to='core.contact')),
+                ('contact', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='social_links', to='main.contact')),
             ],
             options={
                 'verbose_name': 'Link social',
