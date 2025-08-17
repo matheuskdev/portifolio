@@ -1,0 +1,81 @@
+{% extends "two_factor/_base_focus.html" %}
+{% load i18n phonenumber %}
+
+{% block content %}
+<div class="flex flex-col min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-900">
+  <div class="w-full max-w-2xl space-y-8">
+    <div class="text-center">
+      <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white">{% block title %}{% trans "Segurança da Conta" %}{% endblock %}</h1>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Gerencie suas configurações de autenticação de dois fatores.</p>
+    </div>
+
+    {% if default_device %}
+      <div class="rounded-lg bg-white dark:bg-gray-800 p-8 shadow-md">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Método Principal</h2>
+        {% if default_device_type == 'TOTPDevice' %}
+          <p class="text-gray-600 dark:text-gray-300">Os tokens serão gerados pelo seu gerador de tokens.</p>
+        {% elif default_device_type == 'PhoneDevice' %}
+          <p class="text-gray-600 dark:text-gray-300">{% blocktrans with primary=default_device|device_action %}Primeiro meio de autenticação: {{ primary }}{% endblocktrans %}</p>
+        {% elif default_device_type == 'RemoteYubikeyDevice' %}
+          <p class="text-gray-600 dark:text-gray-300">Tokens que serão gerados pelo Yubikey.</p>
+        {% endif %}
+      </div>
+
+      {% if available_phone_methods %}
+        <div class="rounded-lg bg-white dark:bg-gray-800 p-8 shadow-md">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">{% trans "Dispositivos de Backup" %}</h2>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">Caso seu método principal não esteja disponível, podemos enviar tokens de backup para os números de telefone listados abaixo.</p>
+          <ul class="space-y-4">
+            {% for phone in backup_phones %}
+              <li class="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                <span class="text-gray-700 dark:text-gray-200 font-medium">{{ phone|device_action }}</span>
+                <form method="post" action="{% url 'two_factor:phone_delete' phone.id %}" onsubmit="return confirm('Tem certeza que deseja cancelar o registro deste dispositivo?')">
+                  {% csrf_token %}
+                  <button class="py-1 px-3 bg-red-600 text-white text-xs font-semibold rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out" type="submit">
+                    Cancelar Registro
+                  </button>
+                </form>
+              </li>
+            {% endfor %}
+          </ul>
+          <div class="mt-6 text-center">
+            <a href="{% url 'two_factor:phone_create' %}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Adicionar Dispositivo
+            </a>
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="rounded-lg bg-white dark:bg-gray-800 p-8 shadow-md">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">{% trans "Tokens de Backup" %}</h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">
+          Se você não possui nenhum dispositivo, pode acessar sua conta usando tokens de backup.
+          {% blocktrans trimmed count counter=backup_tokens %}
+            Você tem apenas um token de backup restante.
+          {% plural %}
+            Você tem {{ counter }} tokens de backup restantes.
+          {% endblocktrans %}
+        </p>
+        <a href="{% url 'two_factor:backup_tokens' %}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Mostrar Tokens
+        </a>
+      </div>
+
+      <div class="rounded-lg bg-white dark:bg-gray-800 p-8 shadow-md">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Desabilitar Autenticação de Dois Fatores</h3>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">Apesar de nós desencorajarmos essa atitude, você pode desabilitar a autenticação de dois fatores da sua conta.</p>
+        <a class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-red-600 bg-transparent hover:bg-red-700 dark:hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" href="{% url 'two_factor:disable' %}">
+          Desabilitar Autenticação de Dois Fatores
+        </a>
+      </div>
+    {% else %}
+      <div class="rounded-lg bg-white dark:bg-gray-800 p-8 shadow-md text-center">
+        <p class="text-gray-600 dark:text-gray-300 mb-4">A autenticação em 2 passos não está ativa em sua conta.<br/>Habilite para melhorar a segurança da sua conta.</p>
+        <a href="{% url 'two_factor:setup' %}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Habilitar Autenticação de Dois Fatores
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

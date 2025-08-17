@@ -1,4 +1,11 @@
-<table class="mb-3">
+{% load custom_filters %} 
+
   {{ wizard.management_form }}
-  {{ wizard.form.as_p }}
-</table>
+
+{% for field in wizard.form %}
+      <div class="space-y-2">
+        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-800 dark:text-gray-400">
+          {{ field.label }}
+        </label>
+        {{ field|add_form_classes }}  </div>
+    {% endfor %}
