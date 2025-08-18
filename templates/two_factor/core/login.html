@@ -9,84 +9,76 @@
 
 {% block content %}
 {% if not user.is_authenticated %}
-<div class="flex flex-col min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-  <div class="w-full max-w-md space-y-8">
+<div class="flex flex-col min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-900">
+  <div class="w-full max-w-md space-y-8 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
     <div class="text-center">
-      <h2 class="mt-6 text-3xl font-extrabold text-white">
+      <h2 class="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
         {% block title %}Login MB{% endblock %}
       </h2>
-      <p class="mt-2 text-sm text-gray-400">
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
         Entre na sua conta para continuar.
       </p>
     </div>
 
     {% if wizard.steps.current == 'auth' %}
-      {% elif wizard.steps.current == 'token' %}
-      <p class="text-center text-white">{{ device|as_verbose_action }}</p>
+    {% elif wizard.steps.current == 'token' %}
+      <p class="text-center text-gray-600 dark:text-white">{{ device|as_verbose_action }}</p>
     {% elif wizard.steps.current == 'backup' %}
-      <p class="mt-2 text-center text-sm text-gray-400">
+      <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
         Use este formulário para inserir tokens de backup para login. Esses tokens foram gerados para você imprimir e guardar em segurança. Por favor, insira um desses tokens de backup para acessar sua conta.
       </p>
     {% endif %}
 
-    <div class="rounded-lg bg-gray-800 p-8 shadow-md sm:rounded-lg sm:p-10">
-      <form action="" method="post" class="space-y-6">
-        {% block main_form_content %}
-          {% csrf_token %}
-          {% include "two_factor/_wizard_forms.html" %}
+    <form action="" method="post" class="space-y-6">
+      {% block main_form_content %}
+        {% csrf_token %}
+        {% include "two_factor/_wizard_forms.html" %}
 
-          <input type="submit" value="" hidden />
+        <input type="submit" value="" hidden />
 
-          {% if other_devices %}
-            <p class="mt-4 text-center text-sm text-gray-400">Ou, alternativamente, use um dos seus outros métodos de autenticação:</p>
-            <div class="space-y-2 mt-2">
-              {% for other in other_devices %}
-                <button name="challenge_device" value="{{ other.persistent_id }}" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit">
-                  {{ other|as_action }}
-                </button>
-              {% endfor %}
-            </div>
-          {% endif %}
-
-          {% include "two_factor/_wizard_actions.html" %}
-        {% endblock %}
-      </form>
-
-      {% block 'backup_tokens' %}
-        {% if backup_tokens %}
-          <div class="mt-6 pt-6 border-t border-gray-700">
-            <form action="" method="post" class="text-center">
-              {% csrf_token %}
-              <p class="text-sm text-gray-400">Como último recurso, você pode usar um token de backup:</p>
-              <button name="wizard_goto_step" type="submit" value="backup" class="mt-3 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-transparent hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                Usar token de backup
+        {% if other_devices %}
+          <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">Ou, alternativamente, use um dos seus outros métodos de autenticação:</p>
+          <div class="space-y-2 mt-2">
+            {% for other in other_devices %}
+              <button name="challenge_device" value="{{ other.persistent_id }}" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit">
+                {{ other|as_action }}
               </button>
-            </form>
+            {% endfor %}
           </div>
         {% endif %}
+
+        {% include "two_factor/_wizard_actions.html" %}
       {% endblock %}
-    </div>
+    </form>
+    
+    {% block 'backup_tokens' %}
+      {% if backup_tokens %}
+        <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <form action="" method="post" class="text-center">
+            {% csrf_token %}
+            <p class="text-sm text-gray-600 dark:text-gray-400">Como último recurso, você pode usar um token de backup:</p>
+            <button name="wizard_goto_step" type="submit" value="backup" class="mt-3 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+              Usar token de backup
+            </button>
+          </form>
+        </div>
+      {% endif %}
+    {% endblock %}
   </div>
 </div>
 {% else %}
 
-<div class="flex flex-col min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-  <div class="w-full max-w-md space-y-8">
-    <div class="text-center">
-      <h2 class="mt-6 text-3xl font-extrabold text-white">
-        Bem vindo(a) {{ user.username }}}
-      </h2>
-      <p class="mt-2 text-sm text-gray-400">
-        Acesse as suas configurações de autenticação.
-        <a href="{% url 'two_factor:profile' %}" class="font-medium text-indigo-600 hover:text-indigo-500"> Clique aqui!</a>
-      </p>
-    </div>
+<div class="flex flex-col min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-900">
+  <div class="w-full max-w-md space-y-8 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-xl text-center">
+    <h2 class="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
+      Bem vindo(a) {{ user.username }}
+    </h2>
+    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+      Acesse as suas configurações de autenticação.
+      <a href="{% url 'two_factor:profile' %}" class="font-medium text-indigo-600 hover:text-indigo-500"> Clique aqui!</a>
+    </p>
   </div>
 </div>
 
 {% endif %}
-
-
 {% endblock %}
-
-

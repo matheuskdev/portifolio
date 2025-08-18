@@ -1,0 +1,42 @@
+{% extends "two_factor/_base_focus.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="flex flex-col min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-900">
+  <div class="w-full max-w-md space-y-8 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-xl text-center">
+    <h1 class="text-3xl font-extrabold text-green-600 dark:text-green-500">{% block title %}{% trans "Autenticação de Dois Fatores Habilitada" %}{% endblock %}</h1>
+    
+    <p class="mt-2 text-gray-600 dark:text-gray-400">
+      {% blocktrans trimmed %}
+        Parabéns, você habilitou com sucesso a autenticação de dois fatores.
+      {% endblocktrans %}
+    </p>
+
+    {% if not phone_methods %}
+      <div class="mt-6">
+        <a href="{% url 'two_factor:profile' %}"
+          class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          {% trans "Voltar para Segurança da Conta" %}
+        </a>
+      </div>
+    {% else %}
+      <p class="mt-2 text-gray-600 dark:text-gray-400">
+        {% blocktrans trimmed %}
+          No entanto, pode acontecer de você não ter acesso ao seu dispositivo de token principal. Para habilitar a recuperação de conta, adicione um número de telefone.
+        {% endblocktrans %}
+      </p>
+
+      <div class="flex justify-between items-center mt-6">
+        <a href="{% url 'two_factor:profile' %}"
+          class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+          {% trans "Voltar para Segurança da Conta" %}
+        </a>
+        <a href="{% url 'two_factor:phone_create' %}"
+          class="py-2 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+          {% trans "Adicionar Número de Telefone" %}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "two_factor/_base_focus.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="flex flex-col min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-900">
+  <div class="w-full max-w-md space-y-8 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-xl text-center">
+    <h1 class="text-3xl font-extrabold text-red-600 dark:text-red-500">{% block title %} Permissão Negada {% endblock %}</h1>
+    
+    <p class="mt-2 text-gray-600 dark:text-gray-400">
+        A página que você solicitou exige que os usuários verifiquem sua identidade usando autenticação de dois fatores por motivos de segurança. 
+        Você precisa habilitar esses recursos de segurança para poder acessar esta página.
+    </p>
+
+    <p class="mt-4 text-gray-600 dark:text-gray-400">
+        A autenticação de dois fatores não está habilitada para sua conta. 
+        Habilite a autenticação de dois fatores para aumentar a segurança de sua conta.
+    </p>
+
+    <div class="flex justify-between items-center mt-8">
+      <a href="javascript:history.go(-1)"
+         class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+        Voltar
+      </a>
+      <a href="{% url 'two_factor:setup' %}" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Habilitar Autenticação de Dois Fatores
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

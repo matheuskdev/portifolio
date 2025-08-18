@@ -35,12 +35,14 @@
 </script>
 </head>
 
-<body class="bg-black text-white font-sans flex flex-col min-h-screen">
+<body class="h-full bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+    <div class="flex min-h-full flex-col">
     {% include "main/sidebar.html" %}
     <main class="lg:ml-20 flex-grow flex flex-col">
         {% block main %}{% endblock main %}
         {% include "main/footer.html" %}
     </main>
+    </div>
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

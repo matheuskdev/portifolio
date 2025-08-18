@@ -1,0 +1,93 @@
+{% extends "two_factor/_base_focus.html" %}
+{% load i18n %}
+
+{% block extra_media %}
+{{ form.media }}
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-900">
+  <div class="w-full max-w-2xl space-y-8 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
+    <div class="text-center">
+      <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white">
+        {% block title %}Habilitar Autenticação de Dois Fatores{% endblock %}</h1>
+    </div>
+
+    {% if wizard.steps.current == 'welcome' %}
+      <p class="mt-2 text-center text-gray-600 dark:text-gray-400">
+          Você está prestes a levar a segurança da sua conta para o próximo nível. 
+          Siga os passos neste assistente para habilitar a autenticação de dois fatores.
+      </p>
+    {% elif wizard.steps.current == 'method' %}
+      <p class="mt-2 text-center text-gray-600 dark:text-gray-400">
+          Por favor, selecione qual método de autenticação você gostaria de usar.
+      </p>
+    {% elif wizard.steps.current == 'generator' %}
+      <p class="mt-2 text-gray-600 dark:text-gray-400">
+          Para começar a usar um gerador de tokens, use seu smartphone para escanear o código QR abaixo. 
+          Por exemplo, use o Google Authenticator.
+      </p>
+      <div class="flex justify-center my-6">
+        <img src="{{ QR_URL }}" alt="QR Code" class="bg-white border-4 border-gray-200 dark:border-gray-700 p-2 rounded-lg" />
+      </div>
+      <p class="mt-4 text-gray-600 dark:text-gray-400">
+          Alternativamente, você pode usar o seguinte segredo para configurar manualmente o TOTP em seu autenticador ou gerenciador de senhas.
+      </p>
+      <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-md break-all">
+        <span class="text-gray-900 dark:text-white font-mono font-bold">Segredo TOTP:"</span>
+        <a href="{{ otpauth_url }}" class="text-indigo-600 dark:text-indigo-400 hover:underline ml-2">{{ secret_key }}</a>
+      </div>
+      <p class="mt-4 text-gray-600 dark:text-gray-400">
+        Em seguida, digite o token gerado pelo aplicativo para prosseguir.
+      </p>
+
+    {% elif wizard.steps.current == 'sms' %}
+      <p class="mt-2 text-gray-600 dark:text-gray-400">
+          Por favor, digite o número de telefone no qual você deseja receber as mensagens de texto. 
+          Este número será validado na próxima etapa.
+      </p>
+    {% elif wizard.steps.current == 'call' %}
+      <p class="mt-2 text-gray-600 dark:text-gray-400">
+          Por favor, digite o número de telefone no qual você deseja ser chamado. 
+          Este número será validado na próxima etapa.
+      </p>
+    {% elif wizard.steps.current == 'validation' %}
+      {% if challenge_succeeded %}
+        {% if device.method == 'call' %}
+          <p class="mt-2 text-gray-600 dark:text-gray-400">
+              Estamos ligando para seu telefone agora, por favor, digite os dígitos que você ouve.
+          </p>
+        {% elif device.method == 'sms' %}
+          <p class="mt-2 text-gray-600 dark:text-gray-400">
+              Enviamos uma mensagem de texto, por favor, digite os tokens que enviamos.
+          </p>
+        {% endif %}
+      {% else %}
+        <div class="p-4 bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-100 rounded-lg" role="alert">
+          <p class="font-bold">Aviso</p>
+          <p>
+              Encontramos um problema com o método de autenticação selecionado. 
+              Por favor, volte e verifique se você inseriu suas informações corretamente, 
+              tente novamente ou use um método de autenticação diferente. 
+              Se o problema persistir, entre em contato com o administrador do site.
+          </p>
+        </div>
+      {% endif %}
+    {% elif wizard.steps.current == 'yubikey' %}
+      <p class="mt-2 text-gray-600 dark:text-gray-400">
+          Para identificar e verificar sua YubiKey, insira um token no campo abaixo. Sua YubiKey será vinculada à sua conta.
+      </p>
+    {% endif %}
+
+    <form action="" method="post" class="mt-8 space-y-6">
+      {% csrf_token %}
+      {% include "two_factor/_wizard_forms.html" %}
+
+      {# hidden submit button to enable [enter] key #}
+      <input type="submit" value="" hidden />
+
+      {% include "two_factor/_wizard_actions.html" %}
+    </form>
+  </div>
+</div>
+{% endblock %}

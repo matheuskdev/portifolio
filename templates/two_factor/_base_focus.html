@@ -1,0 +1,9 @@
+{% extends "two_factor/_base.html" %}
+
+{% block content_wrapper %}
+  <div class="flex flex-col items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="w-full max-w-lg">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}

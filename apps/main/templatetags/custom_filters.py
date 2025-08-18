@@ -11,8 +11,13 @@ def add_form_classes(field):
     
     # Aplica as classes apenas se o campo for um widget de input.
     if hasattr(field, 'field'):
-        widget_classes = field.field.widget.attrs.get('class', '')
-        new_classes = f'{widget_classes} {default_classes}'.strip()
-        field.field.widget.attrs['class'] = new_classes
-        
+        widget_type = field.field.widget.__class__.__name__
+
+        if widget_type in ['TextInput', 'PasswordInput', 'EmailInput', 'NumberInput', 'URLInput', 'Textarea']:
+            widget_classes = field.field.widget.attrs.get('class', '')
+            new_classes = f'{widget_classes} {default_classes}'.strip()
+            field.field.widget.attrs['class'] = new_classes
+        elif widget_type == 'RadioSelect':
+            field.field.widget.attrs['class'] = 'flex flex-col space-y-2 mt-2'
+            return field
     return field
